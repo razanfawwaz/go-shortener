@@ -1,15 +1,12 @@
 package domain
 
 import (
-	"time"
+	"gorm.io/gorm"
 )
 
 type User struct {
-	CreatedAt    time.Time
-	ID           string `sql:"type:uuid;primary_key;default:uuid_generate_v4()"`
+	gorm.Model
 	Email        string `json:"email"`
 	Password     string `json:"password"`
 	IsSubscribed bool   `json:"is_subscribed"`
-	UpdatedAt    time.Time
-	DeletedAt    time.Time `gorm:"index"`
 }

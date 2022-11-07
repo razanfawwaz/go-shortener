@@ -34,7 +34,6 @@ func (u *urlController) GenerateUrl(db *gorm.DB) echo.HandlerFunc {
 				})
 			}
 		}
-
 		return c.JSON(200, echo.Map{
 			"message": "success",
 			"data":    url,
