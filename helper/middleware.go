@@ -17,7 +17,12 @@ func CreateToken(userID uint, userEmail string, ctx echo.Context) (string, error
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	data := config.LoadENV()
-	secret := data["jwtSecret"]
+	return token.SignedString([]byte(data["jwtSecret"]))
+}
 
-	return token.SignedString([]byte(secret))
+func ClaimToken(ctx echo.Context) uint {
+	user := ctx.Get("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	userID := claims["userID"].(float64)
+	return uint(userID)
 }
