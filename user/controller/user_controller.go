@@ -2,7 +2,6 @@ package controller
 
 import (
 	"github.com/labstack/echo/v4"
-	"gorm.io/gorm"
 	"urlshortener/domain"
 	"urlshortener/helper"
 	"urlshortener/user/usecase"
@@ -18,7 +17,7 @@ func NewUserController(userUsecase usecase.UserUsecase) *userController {
 	return &userController{userUsecase}
 }
 
-func (u *userController) Create(db *gorm.DB) echo.HandlerFunc {
+func (u *userController) Create() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var user domain.User
 		if err := c.Bind(&user); err != nil {
@@ -37,13 +36,12 @@ func (u *userController) Create(db *gorm.DB) echo.HandlerFunc {
 		}
 
 		return c.JSON(200, echo.Map{
-			"message": "success",
-			"data":    user,
+			"data": user,
 		})
 	}
 }
 
-func (u *userController) Auth(db *gorm.DB) echo.HandlerFunc {
+func (u *userController) Auth() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var user domain.User
 		if err := c.Bind(&user); err != nil {
@@ -61,7 +59,7 @@ func (u *userController) Auth(db *gorm.DB) echo.HandlerFunc {
 			}
 		}
 		// create token jwt
-		token, err := helper.CreateToken(user.ID, user.Email, c)
+		token, err := helper.CreateToken(user.ID)
 		if err != nil {
 			return c.JSON(500, echo.Map{
 				"message": err.Error(),
@@ -72,9 +70,9 @@ func (u *userController) Auth(db *gorm.DB) echo.HandlerFunc {
 		c.Set("userEmail", user.Email)
 
 		return c.JSON(200, echo.Map{
-			"message": "success",
-			"data":    user,
-			"token":   token,
+
+			"data":  user,
+			"token": token,
 		})
 	}
 }

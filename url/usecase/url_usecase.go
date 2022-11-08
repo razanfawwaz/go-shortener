@@ -8,7 +8,7 @@ import (
 type UseCase interface {
 	GenerateUrl(url domain.Url) (domain.Url, error)
 	UpdateUrl(short string, id int, url domain.Url) (domain.Url, error)
-	DeleteUrl(url domain.Url) (domain.Url, error)
+	DeleteUrl(short string, id int, url domain.Url) error
 	FindUrl(short string) (string, error)
 	GetAllUrl() ([]domain.Url, error)
 	UserUrl(id int) ([]domain.Url, error)
@@ -39,8 +39,8 @@ func (u *urlUsecase) UpdateUrl(short string, id int, url domain.Url) (domain.Url
 	return u.urlRepository.UpdateUrl(short, id, url)
 }
 
-func (u *urlUsecase) DeleteUrl(url domain.Url) (domain.Url, error) {
-	return u.urlRepository.DeleteUrl(url)
+func (u *urlUsecase) DeleteUrl(short string, id int, url domain.Url) error {
+	return u.urlRepository.DeleteUrl(short, id, url)
 }
 
 func (u *urlUsecase) UserUrl(id int) ([]domain.Url, error) {

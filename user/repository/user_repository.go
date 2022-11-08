@@ -42,6 +42,5 @@ func (u *UserRepository) Auth(user domain.User) (domain.User, error) {
 		// return 500 error
 		return user, err
 	}
-	fmt.Println("password match", userDB.Password, user.Password)
 	return userDB, err
 }

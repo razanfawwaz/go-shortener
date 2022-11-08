@@ -11,7 +11,7 @@ type Url interface {
 	FindUrl(short string) (string, error)
 	GetAllUrl() ([]domain.Url, error)
 	UpdateUrl(short string, id int, url domain.Url) (domain.Url, error)
-	DeleteUrl(url domain.Url) (domain.Url, error)
+	DeleteUrl(short string, id int, url domain.Url) error
 	UserUrl(id int) ([]domain.Url, error)
 	ExpiredUrl(short string) (bool, error)
 }
@@ -72,9 +72,9 @@ func (u *UrlRepository) GetAllUrl() ([]domain.Url, error) {
 	return urls, err
 }
 
-func (u *UrlRepository) DeleteUrl(url domain.Url) (domain.Url, error) {
-	err := u.db.Delete(&url).Error
-	return url, err
+func (u *UrlRepository) DeleteUrl(short string, id int, url domain.Url) error {
+	err := u.db.Where("short_url = ? AND user_id = ?", short, id).Delete(&url).Error
+	return err
 }
 
 func (u *UrlRepository) UserUrl(id int) ([]domain.Url, error) {

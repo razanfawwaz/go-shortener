@@ -35,17 +35,26 @@ func New() *echo.Echo {
 	userService := userUsc.NewUserUsecase(userRepo)
 	userController := userCon.NewUserController(userService)
 
-	e.GET("/:short", urlController.FindUrl(config.DB))
-	e.POST("/users", userController.Create(config.DB))
-	e.POST("/users/login", userController.Auth(config.DB))
+	// Non-Middleware
+	e.POST("/users", userController.Create())
+	e.POST("/users/login", userController.Auth())
+	e.GET("/:short", urlController.FindUrl())
 
-	auth := e.Group("")
+	// Load ENV
 	data := config.LoadENV()
-	auth.Use(middleware.JWT([]byte(data["jwtSecret"])))
-	auth.GET("/users", urlController.UserUrl(config.DB))
-	auth.POST("/urls", urlController.GenerateUrl(config.DB))
-	auth.GET("/urls", urlController.GetAllUrl(config.DB))
-	auth.PUT("/urls/:short", urlController.UpdateUrl(config.DB))
+
+	// Group User
+	user := e.Group("/users")
+	user.Use(middleware.JWT([]byte(data["jwtSecret"])))
+	user.GET("", urlController.UserUrl())
+
+	// Group Url
+	url := e.Group("/urls")
+	url.Use(middleware.JWT([]byte(data["jwtSecret"])))
+	url.POST("", urlController.GenerateUrl())
+	url.GET("", urlController.GetAllUrl())
+	url.PUT("/:short", urlController.UpdateUrl())
+	url.DELETE("/:short", urlController.DeleteUrl())
 
 	return e
 

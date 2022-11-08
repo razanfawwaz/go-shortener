@@ -7,11 +7,10 @@ import (
 	"urlshortener/config"
 )
 
-func CreateToken(userID uint, userEmail string, ctx echo.Context) (string, error) {
+func CreateToken(userID uint) (string, error) {
 	claims := jwt.MapClaims{
 		"authorization": true,
 		"userID":        userID,
-		"userEmail":     userEmail,
 		"exp":           time.Now().Add(time.Minute * 30).Unix(),
 	}
 
