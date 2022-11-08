@@ -7,11 +7,12 @@ import (
 
 type UseCase interface {
 	GenerateUrl(url domain.Url) (domain.Url, error)
-	FindUrl(short string) (string, error)
 	UpdateUrl(short string, id int, url domain.Url) (domain.Url, error)
 	DeleteUrl(url domain.Url) (domain.Url, error)
+	FindUrl(short string) (string, error)
 	GetAllUrl() ([]domain.Url, error)
 	UserUrl(id int) ([]domain.Url, error)
+	ExpiredUrl(short string) (bool, error)
 }
 
 type urlUsecase struct {
@@ -44,4 +45,8 @@ func (u *urlUsecase) DeleteUrl(url domain.Url) (domain.Url, error) {
 
 func (u *urlUsecase) UserUrl(id int) ([]domain.Url, error) {
 	return u.urlRepository.UserUrl(id)
+}
+
+func (u *urlUsecase) ExpiredUrl(short string) (bool, error) {
+	return u.urlRepository.ExpiredUrl(short)
 }

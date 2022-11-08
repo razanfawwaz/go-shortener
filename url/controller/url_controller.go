@@ -74,6 +74,7 @@ func (u *urlController) FindUrl(db *gorm.DB) echo.HandlerFunc {
 				})
 			}
 		}
+
 		return c.Redirect(301, url)
 	}
 }
