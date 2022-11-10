@@ -14,8 +14,7 @@ var DB *gorm.DB
 
 func InitDB() {
 	ENV := LoadENV()
-	dsn := fmt.Sprintf("%v:@tcp(%v)/%v?charset=utf8mb4&parseTime=True&loc=Local", ENV["username"], ENV["host"], ENV["database"])
-
+	dsn := fmt.Sprintf("%v:%v@tcp(%v)/%v?charset=utf8mb4&parseTime=True&loc=Local", ENV["username"], ENV["password"], ENV["host"], ENV["database"])
 	var e error
 	DB, e = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if e != nil {
