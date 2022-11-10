@@ -10,7 +10,6 @@ type Url struct {
 	LongUrl   string    `json:"long_url"`
 	ShortUrl  string    `json:"short_url" gorm:"unique"`
 	Clicks    int       `default:"0"`
-	ExpiredAt time.Time `json:"expired_at" gorm:"default:NULL"`
-	TotalEdit int
+	ExpiredAt time.Time `json:"expired_at"`
 	UserID    int
 }

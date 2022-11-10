@@ -36,8 +36,8 @@ func New() *echo.Echo {
 	userController := userCon.NewUserController(userService)
 
 	// Non-Middleware
-	e.POST("/users", userController.Create())
-	e.POST("/users/login", userController.Auth())
+	e.POST("/register", userController.Create())
+	e.POST("/login", userController.Auth())
 	e.GET("/:short", urlController.FindUrl())
 
 	// Load ENV

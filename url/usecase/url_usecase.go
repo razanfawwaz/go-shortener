@@ -13,6 +13,7 @@ type UseCase interface {
 	GetAllUrl() ([]domain.Url, error)
 	UserUrl(id int) ([]domain.Url, error)
 	ExpiredUrl(short string) (bool, error)
+	SubsStatus(id int) (bool, error)
 }
 
 type urlUsecase struct {
@@ -49,4 +50,8 @@ func (u *urlUsecase) UserUrl(id int) ([]domain.Url, error) {
 
 func (u *urlUsecase) ExpiredUrl(short string) (bool, error) {
 	return u.urlRepository.ExpiredUrl(short)
+}
+
+func (u *urlUsecase) SubsStatus(id int) (bool, error) {
+	return u.urlRepository.SubsStatus(id)
 }

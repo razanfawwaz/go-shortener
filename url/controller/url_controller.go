@@ -38,7 +38,8 @@ func (u *urlController) GenerateUrl() echo.HandlerFunc {
 			}
 		}
 		return c.JSON(200, echo.Map{
-			"data": url,
+			"data":    url,
+			"message": "Url generated",
 		})
 	}
 }

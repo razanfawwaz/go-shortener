@@ -19,24 +19,23 @@ func NewUserController(userUsecase usecase.UserUsecase) *userController {
 
 func (u *userController) Create() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		var user domain.User
+		var user *domain.User
 		if err := c.Bind(&user); err != nil {
 			return c.JSON(400, echo.Map{
 				"message": err.Error(),
 			})
 		}
 
-		user, err := u.userUsecase.Create(user)
+		err := u.userUsecase.Create(user, c.Request().Context())
 		{
-			if err != nil {
-				return c.JSON(500, echo.Map{
-					"message": err.Error(),
+			if err != "nil" {
+				return c.JSON(200, echo.Map{
+					"message": err,
 				})
 			}
 		}
-
 		return c.JSON(200, echo.Map{
-			"data": user,
+			"message": "User created",
 		})
 	}
 }
@@ -71,8 +70,8 @@ func (u *userController) Auth() echo.HandlerFunc {
 
 		return c.JSON(200, echo.Map{
 
-			"data":  user,
-			"token": token,
+			"token":   token,
+			"message": "User authenticated",
 		})
 	}
 }

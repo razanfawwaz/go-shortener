@@ -14,6 +14,7 @@ type Url interface {
 	DeleteUrl(short string, id int, url domain.Url) error
 	UserUrl(id int) ([]domain.Url, error)
 	ExpiredUrl(short string) (bool, error)
+	SubsStatus(id int) (bool, error)
 }
 
 type UrlRepository struct {
@@ -42,6 +43,18 @@ func (u *UrlRepository) ExpiredUrl(short string) (bool, error) {
 	}
 }
 
+func (u *UrlRepository) SubsStatus(id int) (bool, error) {
+	var user []domain.User
+	// check expired date using short_url and expired_at
+	date := u.db.Where("id = ? AND is_subscribed = true", id).Find(&user)
+	// If date expired > date now, the date not already expired so return false
+	if date.RowsAffected != 0 {
+		return true, nil
+	} else {
+		return false, nil
+	}
+}
+
 func (u *UrlRepository) FindUrl(short string) (string, error) {
 	var url domain.Url
 
@@ -62,8 +75,18 @@ func (u *UrlRepository) FindUrl(short string) (string, error) {
 }
 
 func (u *UrlRepository) UpdateUrl(short string, id int, url domain.Url) (domain.Url, error) {
-	err := u.db.Model(&url).Where("short_url = ? AND user_id = ?", short, id).Updates(url).Error
+	// check subscription status using user_id
+	subs, _ := u.SubsStatus(id)
+	fmt.Println(subs)
+	var err error
+	if !subs {
+		err = fmt.Errorf("Your subscription is expired")
+	} else {
+		err := u.db.Model(&url).Where("short_url = ? AND user_id = ?", short, id).Updates(url).Error
+		return url, err
+	}
 	return url, err
+
 }
 
 func (u *UrlRepository) GetAllUrl() ([]domain.Url, error) {

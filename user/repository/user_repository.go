@@ -2,13 +2,14 @@ package repository
 
 import (
 	"fmt"
+	"golang.org/x/net/context"
 	"gorm.io/gorm"
 	"urlshortener/domain"
 	"urlshortener/helper"
 )
 
 type User interface {
-	Create(user domain.User) (domain.User, error)
+	Create(user *domain.User, ctx context.Context) string
 	Auth(user domain.User) (domain.User, error)
 }
 
@@ -20,14 +21,15 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 	return &UserRepository{db}
 }
 
-func (u *UserRepository) Create(user domain.User) (domain.User, error) {
+func (u *UserRepository) Create(user *domain.User, ctx context.Context) string {
 	// hashing password before save to database
 	user.Password = helper.HashAndSalt([]byte(user.Password))
-	err := u.db.Create(&user).Error
+	err := u.db.WithContext(ctx).Create(&user).Error
 	if err != nil {
-		return user, err
+		return fmt.Sprintf("error: %v", err)
+	} else {
+		return "nil"
 	}
-	return user, nil
 }
 
 func (u *UserRepository) Auth(user domain.User) (domain.User, error) {
