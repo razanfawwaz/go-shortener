@@ -2,17 +2,21 @@ version: '3'
 services:
   mysql:
     image: 'mysql'
-    ports:
-      - '3306:3306'
     environment:
       MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
       MYSQL_DATABASE: "${DATABASE}"
       MYSQL_USER: "${DB_USERNAME}"
       MYSQL_PASSWORD: "${DB_PASSWORD}"
-    networks:
-      - 'database-net'
+    ports:
+        - '3306:3306'
+    expose:
+      - '3306'
     volumes:
       - ./data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysql" ,"ping", "-h", "localhost" ]
+      interval: 15s
+      retries: 10
   app:
     image: 'app_app'
     build: .

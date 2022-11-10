@@ -1,4 +1,4 @@
-name: Create envfile
+name: Deploy
 
 on: [ push ]
 
