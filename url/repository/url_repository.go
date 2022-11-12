@@ -86,7 +86,6 @@ func (u *UrlRepository) UpdateUrl(short string, id int, url domain.Url) (domain.
 		return url, err
 	}
 	return url, err
-
 }
 
 func (u *UrlRepository) GetAllUrl() ([]domain.Url, error) {

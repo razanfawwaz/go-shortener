@@ -35,6 +35,9 @@ func New() *echo.Echo {
 	userService := userUsc.NewUserUsecase(userRepo)
 	userController := userCon.NewUserController(userService)
 
+	//swagger
+	//e.Static("/swagger.json", "dist/swagger.json")
+
 	// Non-Middleware
 	e.POST("/register", userController.Create())
 	e.POST("/login", userController.Auth())

@@ -10,3 +10,5 @@ type User struct {
 	Password     string `json:"password"`
 	IsSubscribed bool   `default:"false"`
 }
+
+type UserResponse []UserResponse
