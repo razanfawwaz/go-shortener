@@ -56,6 +56,7 @@ func New() *echo.Echo {
 	url.Use(middleware.JWT([]byte(data["jwtSecret"])))
 	url.POST("", urlController.GenerateUrl())
 	url.GET("", urlController.GetAllUrl())
+	url.GET("/details/:short", urlController.GetUrlDetail())
 	url.PUT("/:short", urlController.UpdateUrl())
 	url.DELETE("/:short", urlController.DeleteUrl())
 

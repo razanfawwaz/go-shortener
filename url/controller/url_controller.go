@@ -152,3 +152,22 @@ func (u *urlController) UserUrl() echo.HandlerFunc {
 		})
 	}
 }
+
+func (u *urlController) GetUrlDetail() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		short := c.Param("short")
+		id := helper.ClaimToken(c)
+		url, err := u.urlUsecase.GetUrlDetail(short, int(id))
+		{
+			if err != nil {
+				return c.JSON(500, echo.Map{
+					"message": err.Error(),
+				})
+			}
+		}
+
+		return c.JSON(200, echo.Map{
+			"data": url,
+		})
+	}
+}
