@@ -15,6 +15,7 @@ type Url interface {
 	UserUrl(id int) ([]domain.Url, error)
 	ExpiredUrl(short string) (bool, error)
 	SubsStatus(id int) (bool, error)
+	GetUrlDetail(short string, id int) (domain.Url, error)
 }
 
 type UrlRepository struct {
@@ -86,7 +87,6 @@ func (u *UrlRepository) UpdateUrl(short string, id int, url domain.Url) (domain.
 		return url, err
 	}
 	return url, err
-
 }
 
 func (u *UrlRepository) GetAllUrl() ([]domain.Url, error) {
@@ -104,4 +104,10 @@ func (u *UrlRepository) UserUrl(id int) ([]domain.Url, error) {
 	var urls []domain.Url
 	err := u.db.Where("user_id = ?", id).Find(&urls).Error
 	return urls, err
+}
+
+func (u *UrlRepository) GetUrlDetail(short string, id int) (domain.Url, error) {
+	var url domain.Url
+	err := u.db.Where("short_url = ? AND user_id = ?", short, id).First(&url).Error
+	return url, err
 }

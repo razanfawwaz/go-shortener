@@ -1,0 +1,442 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Swagger Petstore"
+  },
+  "host": "68.183.177.144",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "tags": [
+    {
+      "name": "User",
+      "description": "Everything about user"
+    },
+    {
+      "name": "Urls",
+      "description": "Access to Petstore orders"
+    }
+  ],
+  "paths": {
+    "/register": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Creates a new user.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "description": "The user to create.",
+            "schema": {
+              "type": "object",
+              "required": [
+                "userName"
+              ],
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "lastName": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "User created"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Authentication for user.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "description": "The user to login.",
+            "schema": {
+              "type": "object",
+              "required": [
+                "userName"
+              ],
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authenticated",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "User authenticated"
+                },
+                "token": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemF0aW9uIjp0cnVlLCJleHAiOjE2NjgwMjUxMzcsInVzZXJJRCI6MX0.yDLiO1omJCWPUyiqHoptIczAzzXcdFMsBtCIPK4pLBM"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get user urls data.",
+        "responses": {
+          "200": {
+            "description": "Created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2022-11-09T17:57:02.733+07:00"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "example": "2022-11-09T17:57:02.733+07:00"
+                    },
+                    "deletedAt": {
+                      "type": "string",
+                      "example": "null"
+                    },
+                    "long_url": {
+                      "type": "string",
+                      "example": "https://alta.id/"
+                    },
+                    "short_url": {
+                      "type": "string",
+                      "example": "alta"
+                    },
+                    "Clicks": {
+                      "type": "integer",
+                      "example": 4
+                    },
+                    "expired_at": {
+                      "type": "string",
+                      "example": "2023-11-09T17:57:02.733+07:00"
+                    },
+                    "TotalEdit": {
+                      "type": "integer",
+                      "example": 2
+                    },
+                    "UserID": {
+                      "type": "integer",
+                      "example": 2
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/:short": {
+      "get": {
+        "tags": [
+          "Urls"
+        ],
+        "summary": "Redirect to long url.",
+        "responses": {
+          "301": {
+            "description": "301 response, redirect to long url"
+          },
+          "404": {
+            "description": "Created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "record not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/urls": {
+      "post": {
+        "tags": [
+          "Urls"
+        ],
+        "summary": "Creates a new url.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Urls",
+            "description": "The user to create.",
+            "schema": {
+              "type": "object",
+              "required": [
+                "userName"
+              ],
+              "properties": {
+                "long_url": {
+                  "type": "string",
+                  "example": "https://alta.id/"
+                },
+                "short_url": {
+                  "type": "string",
+                  "example": "alta"
+                },
+                "expired_at": {
+                  "type": "string",
+                  "example": "2022-11-09T17:57:02.733+07:00"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2022-11-09T17:57:02.733+07:00"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "example": "2022-11-09T17:57:02.733+07:00"
+                    },
+                    "deletedAt": {
+                      "type": "string",
+                      "example": "null"
+                    },
+                    "long_url": {
+                      "type": "string",
+                      "example": "https://alta.id/"
+                    },
+                    "short_url": {
+                      "type": "string",
+                      "example": "alta"
+                    },
+                    "Clicks": {
+                      "type": "integer",
+                      "example": 4
+                    },
+                    "expired_at": {
+                      "type": "string",
+                      "example": "2023-11-09T17:57:02.733+07:00"
+                    },
+                    "TotalEdit": {
+                      "type": "integer",
+                      "example": 2
+                    },
+                    "UserID": {
+                      "type": "integer",
+                      "example": 2
+                    }
+                  }
+                },
+                "messages": {
+                  "type": "string",
+                  "example": "url generated"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/urls/:short": {
+      "put": {
+        "tags": [
+          "Urls"
+        ],
+        "summary": "Edit url.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Urls",
+            "description": "The user to create.",
+            "schema": {
+              "type": "object",
+              "required": [
+                "userName"
+              ],
+              "properties": {
+                "long_url": {
+                  "type": "string",
+                  "example": "https://alta.id/"
+                },
+                "short_url": {
+                  "type": "string",
+                  "example": "alta"
+                },
+                "expired_at": {
+                  "type": "string",
+                  "example": "2022-11-09T17:57:02.733+07:00"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2022-11-09T17:57:02.733+07:00"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "example": "2022-11-09T17:57:02.733+07:00"
+                    },
+                    "deletedAt": {
+                      "type": "string",
+                      "example": "null"
+                    },
+                    "long_url": {
+                      "type": "string",
+                      "example": "https://alta.id/"
+                    },
+                    "short_url": {
+                      "type": "string",
+                      "example": "alta"
+                    },
+                    "Clicks": {
+                      "type": "integer",
+                      "example": 4
+                    },
+                    "expired_at": {
+                      "type": "string",
+                      "example": "2023-11-09T17:57:02.733+07:00"
+                    },
+                    "TotalEdit": {
+                      "type": "integer",
+                      "example": 2
+                    },
+                    "UserID": {
+                      "type": "integer",
+                      "example": 2
+                    }
+                  }
+                },
+                "messages": {
+                  "type": "string",
+                  "example": "url generated"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Don't  have subscription/Expired subscription",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Your subscription is expired"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Urls"
+        ],
+        "summary": "Delete url.",
+        "responses": {
+          "200": {
+            "description": "Deleted",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "url deleted"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

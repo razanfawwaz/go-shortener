@@ -40,19 +40,13 @@ func LoadENV() map[string]string {
 	} else {
 		log.Println("Success load env")
 	}
-
-	// get value from env
-	host := os.Getenv("HOST")
-	database := os.Getenv("DATABASE")
-	username := os.Getenv("DB_USERNAME")
-	password := os.Getenv("DB_PASSWORD")
-	jwtSecret := os.Getenv("JWT_SECRET")
-
+	// mapping read env
 	return map[string]string{
-		"host":      host,
-		"database":  database,
-		"username":  username,
-		"password":  password,
-		"jwtSecret": jwtSecret,
+		"host":      os.Getenv("DB_HOST"),
+		"username":  os.Getenv("DB_USERNAME"),
+		"password":  os.Getenv("DB_PASSWORD"),
+		"database":  os.Getenv("DB_DATABASE"),
+		"jwtSecret": os.Getenv("JWT_SECRET"),
 	}
+
 }
